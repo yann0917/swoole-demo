@@ -40,8 +40,8 @@ root     28233 28229  0 16:23 pts/0    00:00:00 php tcp_server.php
 
 <details>
 
-`wget http://sourceforge.net/projects/netcat/files/netcat/0.7.1/netcat-0.7.1-1.i386.rpm`
-执行安装 `rpm -ihv netcat-0.7.1-1.i386.rpm`
+下载:`wget http://sourceforge.net/projects/netcat/files/netcat/0.7.1/netcat-0.7.1-1.i386.rpm` <br>
+执行安装: `rpm -ihv netcat-0.7.1-1.i386.rpm`
 
 <summary> netcat 安装方法</summary>
 </details>
