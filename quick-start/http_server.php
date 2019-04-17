@@ -6,7 +6,7 @@ $http->on('request', function ($request, $response) {
     // var_dump($request->get, $request->post);
     var_dump($request->server);
     if ($request->server['path_info'] == '/favicon.ico' || $request->server['request_uri'] == '/favicon.ico') {
-        $response->end();
+        return $response->end();
     }
 
     $response->header("Content-type", "text/html;charset=utf-8");
