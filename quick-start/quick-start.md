@@ -35,3 +35,28 @@ root     28233 28229  0 16:23 pts/0    00:00:00 php tcp_server.php
 
 启动 `Server` 后，客户端无需 `Connect` ，直接可以向 `Server` 监听的 `9502` 端口发送数据包。
 对应的事件为onPacket。
+
+可以使用`netcat -u 127.0.0.1 9502`  连接 UDP 服务器
+
+<details>
+
+`wget http://sourceforge.net/projects/netcat/files/netcat/0.7.1/netcat-0.7.1-1.i386.rpm`
+执行安装 `rpm -ihv netcat-0.7.1-1.i386.rpm`
+
+<summary> netcat 安装方法</summary>
+</details>
+
+连接 UDP 服务器的客户端信息如下：
+
+```php
+array(4) {
+  ["server_socket"]=>
+  int(3)
+  ["server_port"]=>
+  int(9502)
+  ["address"]=>
+  string(9) "127.0.0.1"
+  ["port"]=>
+  int(41894)
+}
+```
