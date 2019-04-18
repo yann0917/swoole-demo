@@ -120,3 +120,16 @@ array(10) {
   string(8) "HTTP/1.1"
 }
 ```
+
+## 创建 WebSocket 服务器
+
+`WebSocket` 服务器是建立在 `Http` 服务器之上的长连接服务器，客户端首先会发送一个 `Http` 的请求与服务器进行握手。握手成功后会触发 `onOpen` 事件，表示连接已就绪，`onOpen` 函数中可以得到 `$request` 对象，包含了Http握手的相关信息，如GET参数、Cookie、Http头信息等。
+
+建立连接后客户端与服务器端就可以双向通信了。
+
+* 客户端向服务器端发送信息时，服务器端触发 `onMessage` 事件回调
+* 服务器端可以调用 `$server->push()` 向某个客户端（使用 `$fd` 标识符）发送消息
+* 服务器端可以设置 `onHandShake` 事件回调来手工处理 `WebSocket` 握手
+* `swoole_http_server` 是 `swoole_server` 的子类，内置了 `Http` 的支持
+* `swoole_websocket_server` 是 `swoole_http_server` 的子类， 内置了 `WebSocket`的支持
+
