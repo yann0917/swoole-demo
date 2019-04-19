@@ -23,11 +23,11 @@ $serv->on('close', function ($serv, $fd) {
 
 $serv->on('task', function ($serv, $task_id, $from_id, $data) {
     echo "New AsyncTask[id=$task_id]\n";
-    $serv->finish("$data ---> OK");
+    $serv->finish("$data ---> OK\n");
 });
 
 $serv->on('finish', function ($serv, $task_id, $data) {
-    echo "AsyncTask[$task_id] Finish: $data";
+    echo "AsyncTask[$task_id] Finish: $data" . PHP_EOL;
 });
 
 $serv->start();
