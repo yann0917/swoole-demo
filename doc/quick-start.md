@@ -5,6 +5,10 @@ swoole_server是异步服务器，所以是通过监听事件的方式来编写�
 如当有新的TCP连接进入时会执行onConnect事件回调，当某个连接向服务器发送数据时会回调onReceive函数。
 
 运行 `php tcp_start.php` 启动简单的 TCP 服务器
+<details> <summary> example </summary>
+
+[code](/src/quick-start/tcp_server.php)
+</details>
 
 查看进程
 
@@ -18,7 +22,7 @@ root     28233 28229  0 16:23 pts/0    00:00:00 php tcp_server.php
 
 `pstree -a` 以树状图显示进程，相同名称的进程不合并显示，并且会显示命令行参数，-p参数表示显示每个进程的PID
 
-```shell
+```bash
   ~  pstree -ap |grep tcp_server
   |       |   `-php,28228 tcp_server.php
   |       |       |-php,28229 tcp_server.php
@@ -36,14 +40,17 @@ root     28233 28229  0 16:23 pts/0    00:00:00 php tcp_server.php
 启动 `Server` 后，客户端无需 `Connect` ，直接可以向 `Server` 监听的 `9502` 端口发送数据包。
 对应的事件为onPacket。
 
+<details> <summary> example </summary>
+
+[code](/src/quick-start/udp_server.php)
+</details>
+
 可以使用`netcat -u 127.0.0.1 9502`  连接 UDP 服务器
 
-<details>
+<details><summary> netcat 安装方法</summary>
 
 下载:`wget http://sourceforge.net/projects/netcat/files/netcat/0.7.1/netcat-0.7.1-1.i386.rpm` <br>
 执行安装: `rpm -ihv netcat-0.7.1-1.i386.rpm`
-
-<summary> netcat 安装方法</summary>
 </details>
 
 连接 UDP 服务器的客户端信息如下：
@@ -70,6 +77,11 @@ array(4) {
 `$response->end()` 方法表示输出一段HTML内容，并结束此请求。
 
 程序可以根据 `$request->server['request_uri']` 实现路由。
+
+<details> <summary> example </summary>
+
+[code](/src/quick-start/http_server.php)
+</details>
 
 使用 `Chrome` 浏览器会产生一次额外的 `/favicon.ico` 请求，如下所示
 
@@ -127,9 +139,52 @@ array(10) {
 
 建立连接后客户端与服务器端就可以双向通信了。
 
+<details> <summary> example </summary>
+
+[code](/src/quick-start/ws_server.php)
+</details>
+
 * 客户端向服务器端发送信息时，服务器端触发 `onMessage` 事件回调
 * 服务器端可以调用 `$server->push()` 向某个客户端（使用 `$fd` 标识符）发送消息
 * 服务器端可以设置 `onHandShake` 事件回调来手工处理 `WebSocket` 握手
 * `swoole_http_server` 是 `swoole_server` 的子类，内置了 `Http` 的支持
 * `swoole_websocket_server` 是 `swoole_http_server` 的子类， 内置了 `WebSocket`的支持
 
+## 设置定时器
+
+定时器粒度为毫秒级
+<details> <summary> example </summary>
+
+[code](/src/quick-start/timer.php)
+</details>
+
+* `swoole_timer_tick` 函数是持续触发的
+* `swoole_timer_after` 函数仅在约定的时间触发一次
+* `swoole_timer_tick` 和 `swoole_timer_after` 函数会返回一个整数，表示定时器的ID
+* 可以使用 `swoole_timer_clear` 清除此定时器，参数为定时器ID
+
+## 执行异步任务
+
+如果需要执行一个很耗时的任务，可以投递一个异步任务到 `TaskWork` 进程池中执行，不影响当前请求的处理速度。
+
+<details> <summary> example </summary>
+
+[code](/src/quick-start/tcp_task_server.php)
+</details>
+
+步骤：
+
+1. 服务器设置 `task_worker_num` , 可以根据任务的耗时和任务量配置适量的task进程
+2. `onReceive` 回调中使用 `$serv->task()` 投递异步任务
+3. `onTask` 事件回调函数中处理异步任务
+4. `onFinish` 事件回调函数中处理异步任务的结果（可选）
+
+## 创建同步 TCP Client
+
+## 创建异步 TCP Client
+
+## 使用异步客户端
+
+## 多进程共享数据
+
+## 使用协程客户端
