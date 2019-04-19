@@ -10,7 +10,10 @@ swoole_server是异步服务器，所以是通过监听事件的方式来编写�
 [code](/src/quick-start/tcp_server.php)
 </details>
 
-查看进程
+**查看进程**
+
+默认使用SWOOLE_PROCESS模式，因此会额外创建 `Master` 和 `Manager` 两个进程。
+在设置 `worker_num` 之后，实际会出现 `2 + worker_num`个进程。
 
 ```shell
   ~  ps -ef|grep tcp_server |grep -v grep
@@ -178,6 +181,49 @@ array(10) {
 2. `onReceive` 回调中使用 `$serv->task()` 投递异步任务
 3. `onTask` 事件回调函数中处理异步任务
 4. `onFinish` 事件回调函数中处理异步任务的结果（可选）
+
+在设置 `task_worker_num` 之后，实际会出现 `2 + worker_num + task_worker_num`个进程
+
+<details> <summary> ps 查看进程 </summary>
+
+```bash
+  ~  ps -ef| grep tcp_task_server |grep -v grep
+root     32051 31660  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32052 32051  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32055 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32056 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32057 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32058 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32059 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32060 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32061 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32062 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32063 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32064 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32065 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+root     32066 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
+```
+
+```bash
+  ~  pstree -ap |grep tcp_task_server
+  |       |   `-php,32051 tcp_task_server.php
+  |       |       |-php,32052 tcp_task_server.php
+  |       |       |   |-php,32055 tcp_task_server.php
+  |       |       |   |-php,32056 tcp_task_server.php
+  |       |       |   |-php,32057 tcp_task_server.php
+  |       |       |   |-php,32058 tcp_task_server.php
+  |       |       |   |-php,32059 tcp_task_server.php
+  |       |       |   |-php,32060 tcp_task_server.php
+  |       |       |   |-php,32061 tcp_task_server.php
+  |       |       |   |-php,32062 tcp_task_server.php
+  |       |       |   |-php,32063 tcp_task_server.php
+  |       |       |   |-php,32064 tcp_task_server.php
+  |       |       |   |-php,32065 tcp_task_server.php
+  |       |       |   `-php,32066 tcp_task_server.php
+
+```
+
+</details>
 
 ## 创建同步 TCP Client
 
