@@ -227,7 +227,45 @@ root     32066 32052  0 11:16 pts/0    00:00:00 php tcp_task_server.php
 
 ## 创建同步 TCP Client
 
+这个客户端是同步阻塞的，`connect/send/recv` 会等待IO完成后再返回。同步阻塞操作并不消耗CPU资源，IO操作未完成当前进程会自动转入 `sleep` 模式，当IO完成后操作系统会唤醒当前进程，继续向下执行代码。
+
+* TCP需要进行3次握手，所以connect至少需要3次网络传输过程
+* 在发送少量数据时 `$client->send` 都是可以立即返回的。发送大量数据时，`socket缓存区` 可能会塞满，`send` 操作会阻塞。
+* `recv` 操作会阻塞等待服务器返回数据，`recv` 耗时等于服务器处理时间+网络传输耗时之和。
+
+<details> <summary> example </summary>
+
+[code](/src/quick-start/client.php)
+</details>
+
+步骤:
+
+1. `connect()` 创建连接
+2. `send()` 发送数据给服务器
+3. `recv()` 接收服务器发回来的数据
+4. `close()` 关闭连接
+
 ## 创建异步 TCP Client
+
+异步客户端是非阻塞的，可以用于编写高并发的程序。swoole官方提供的`redis-async`、`mysql-async`都是基于异步swoole_client实现的。
+
+异步客户端需要设置回调函数，有4个事件回调必须设置 `onConnect` 、`onError` 、`onReceive` 、`onClose` 。分别在客户端连接成功、连接失败、收到数据、连接关闭时触发。
+
+`$client->connect()` 发起连接的操作会立即返回，不存在任何等待。当对应的IO事件完成后，swoole底层会自动调用设置好的回调函数。
+
+<details> <summary> example </summary>
+
+[code](/src/quick-start/async_client.php)
+</details>
+
+步骤:
+
+1. `new swoole_client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_ASYNC)` 创建异步客户端
+2. `connect` 注册连接成功回调
+3. `receive` 注册数据接收回调
+4. `error` 注册连接失败回调
+5. `close` 注册连接关闭回调
+6. `connect()` 发起连接
 
 ## 使用异步客户端
 
