@@ -24,5 +24,6 @@ go(function () {
 
     $db->connect($server);
 
-    $db->query('show tables');
+    $result = $db->query('show tables');
+    var_dump($result);
 });
