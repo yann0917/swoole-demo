@@ -7,7 +7,7 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::create(dirname(__DIR__, 2));
 $dotenv->load();
 
-$db = new Swoole\Mysql;
+$db = new Swoole\MySQL;
 
 $server = [
     'host' => getenv('MYSQL_HOST'),
