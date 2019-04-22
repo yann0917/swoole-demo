@@ -4,7 +4,7 @@ require_once(dirname(__DIR__, 2) . '/vendor/autoload.php');
 
 use Dotenv\Dotenv;
 
-Swoole\Runtime::enableCoroutine();
+// Swoole\Runtime::enableCoroutine();
 
 $dotenv = Dotenv::create(dirname(__DIR__, 2));
 $dotenv->load();
