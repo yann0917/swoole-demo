@@ -9,7 +9,7 @@ Swoole\Runtime::enableCoroutine();
 $dotenv = Dotenv::create(dirname(__DIR__, 2));
 $dotenv->load();
 
-$http = new Swoole\Coroutine\Http\Client('0.0.0.0', 9501);
+$http = new Swoole\Http\Server('0.0.0.0', 9501);
 
 $http->on('request', function($request, $response){
     $db = new Swoole\Coroutine\MySQL();
