@@ -11,6 +11,18 @@ class ComposerStaticInit0d804685ae66c061bc7625b9e813aa97
     );
 
     public static $prefixLengthsPsr4 = array (
+        't' => 
+        array (
+            'test\\' => 5,
+        ),
+        'q' => 
+        array (
+            'quickStart\\' => 11,
+        ),
+        'a' => 
+        array (
+            'app\\' => 4,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Ctype\\' => 23,
@@ -22,6 +34,18 @@ class ComposerStaticInit0d804685ae66c061bc7625b9e813aa97
     );
 
     public static $prefixDirsPsr4 = array (
+        'test\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/test',
+        ),
+        'quickStart\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/quick-start',
+        ),
+        'app\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/app',
+        ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',

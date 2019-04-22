@@ -4,5 +4,12 @@
     },
     "require": {
         "vlucas/phpdotenv": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "quickStart\\": "src/quick-start",
+            "app\\": "src/app",
+            "test\\": "src/test"
+        }
     }
 }

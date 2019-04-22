@@ -1,4 +1,9 @@
 <?php
+
+namespace quickStart;
+
+require_once(dirname(__DIR__, 2) . '/vendor/autoload.php');
+
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::create(dirname(__DIR__, 2));
