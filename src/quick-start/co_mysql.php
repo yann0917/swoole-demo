@@ -16,7 +16,7 @@ go(function () {
         'user' => getenv('MYSQL_USERNAME'),
         'password' => getenv('MYSQL_PASSWORD'),
         'database' => getenv('MYSQL_DATABASE'),
-        'charset' => 'utf8',
+        'charset' => 'utf8mb4',
         'timeout' => 2,
     ];
     $db->connect($server);
