@@ -1,5 +1,8 @@
 {
     "require-dev": {
         "eaglewu/swoole-ide-helper": "dev-master"
+    },
+    "require": {
+        "vlucas/phpdotenv": "^3.3"
     }
 }
