@@ -7,7 +7,7 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::create(dirname(__DIR__, 2));
 $dotenv->load();
 
-$db = new Swoole\MySQL;
+$db = new Swoole\Coroutine\MySQL();
 
 $server = [
     'host' => getenv('MYSQL_HOST'),
@@ -19,9 +19,13 @@ $server = [
     'timeout' => 2,
 ];
 
-$db->connect($server, function ($db, $result) {
-    $db->query('show tables', function (Swoole\Mysql $db, $result) {
-        var_dump($result);
-        $db->close();
-    });
-});
+// $db->connect($server, function ($db, $result) {
+//     $db->query('show tables', function (Swoole\Mysql $db, $result) {
+//         var_dump($result);
+//         $db->close();
+//     });
+// });
+
+$db->connect($server);
+
+$db->query('show tables');
