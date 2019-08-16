@@ -1,6 +1,6 @@
 <?php
 
-$http = new \Swoole\Http\Server('0.0.0.0', 9501);
+$http = new \Swoole\Http\Server('0.0.0.0', 9501, SWOOLE_BASE);
 
 $http->on('request', function ($request, $response) {
     // var_dump($request->get, $request->post);
