@@ -15,5 +15,6 @@ if (!$data) {
     die("recv failed.\n");
 }
 
-var_dump($data);
+// var_dump($data);
+echo $data;
 $client->close();
