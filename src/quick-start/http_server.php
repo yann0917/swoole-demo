@@ -1,6 +1,6 @@
 <?php
 
-$http = new \Swoole\Http\Server('0.0.0.0', 9501, SWOOLE_BASE);
+$http = new \Swoole\Http\Server('0.0.0.0', 9501);
 
 $http->on('request', function ($request, $response) {
     // var_dump($request->get, $request->post);
@@ -12,8 +12,6 @@ $http->on('request', function ($request, $response) {
     $opts = [
         'http' => ['method' => 'GET','timeout'=>1],
     ];
-    $context = stream_context_create($opts);
-    file_get_contents('https://www.google.com', false, $context);
     $response->header("Content-type", "text/html;charset=utf-8");
     $response->end("<h1>Hello Swoole " . rand(100, 999) . "</h1>");
 });
