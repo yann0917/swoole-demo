@@ -9,9 +9,6 @@ $http->on('request', function ($request, $response) {
         return $response->end();
     }
 
-    $opts = [
-        'http' => ['method' => 'GET','timeout'=>1],
-    ];
     $response->header("Content-type", "text/html;charset=utf-8");
     $response->end("<h1>Hello Swoole " . rand(100, 999) . "</h1>");
 });
